@@ -1,18 +1,31 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <h1><a href="{% url 'home' %}">Hello World</a></h1>
-                {% block content %}{% endblock content %}
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <style>
+            h1 a:hover {
+                color: rgba(100, 100, 255, 0.5);
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1>
+                        <a href="{% url 'home' %}">
+                            <img width="50" src="{% static 'img/cat.png' %}">
+                            SurveyCat
+                        </a>
+                    </h1>
+                    {% block content %}{% endblock content %}
+                </div>
             </div>
         </div>
-    </div>
-    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    {% block extra_scripts %}{% endblock extra_scripts %}
-</body>
+        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+        {% block extra_scripts %}{% endblock extra_scripts %}
+    </body>
 </html>
