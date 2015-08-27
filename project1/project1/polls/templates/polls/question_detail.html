@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ object.question_text }}</h1>
+    <table class="table table-striped">
+    {% for choice in object.choice_set.all %}
+        <tr>
+            <th>
+                {{ choice.choice_text }}
+            </th>
+            <th>
+                <span class="num-votes">{{ choice.votes }}</span>
+                <a data-href="{% url 'choice-vote' choice.pk 'up' %}" class="vote pull-right btn btn-xs btn-primary">&plus;</a>
+                <a data-href="{% url 'choice-vote' choice.pk 'down' %}" class="vote pull-right btn btn-xs btn-primary" style="margin-right: 5px;">&minus;</a>
+            </th>
+        </tr>
+    {% empty %}
+        <td colspan="2">No choices! <a href="{% url 'choice-create' object.pk %}">Add a choice!</a></td>
+    {% endfor %}
+        <tr>
+            <td colspan="2">
+                <a class="btn btn-primary" href="{% url 'choice-create' object.pk %}">Add a choice!</a>
+            </td>
+        </tr>
+    </table>
+{% endblock content %}
+
+{% block extra_scripts %}
+    <script>
+        $(document).on('ready', function () {
+            $('.vote').on('click', function (e) {
+                e.preventDefault();
+                $this = $(this);
+                $.get($this.data('href'), function (data) {
+                    $this.siblings('.num-votes').text(data);
+                });
+            })
+        });
+    </script>
+{% endblock extra_scripts %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <table class="table table-striped">
+        <tr>
+            <th>Question</th>
+            <th>Pub. Date</th>
+        </tr>
+        {% for question in object_list %}
+            <tr>
+                <td><a href="{% url 'question-detail' question.pk %}">{{ question.question_text }}</a></td>
+                <td>{{ question.pub_date }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <th colspan="2">
+                    No questions. <a href="{% url 'question-create' %}">Add one!</a>
+                </th>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="2">
+                <a class="btn btn-primary" href="{% url 'question-create' %}">Add a Question</a>
+            </td>
+        </tr>
+    </table>
+{% endblock content %}
