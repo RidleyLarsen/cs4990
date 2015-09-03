@@ -1,3 +1,4 @@
 bin
 venv-cs4990/
 *.pyc
+project2/media/
