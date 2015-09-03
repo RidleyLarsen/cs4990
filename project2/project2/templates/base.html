@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock title %} | Ridley Larsen</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cosmo/bootstrap.min.css">
+        <style>
+            .container {
+                padding-bottom: 50px;
+            }
+        </style>
+        {% block extra_styles %}{% endblock extra_styles %}
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1 class="text-center"><a href="{% url 'homepage' %}">Ridley Larsen</a></h1>
+                    {% block content %}{% endblock content %}
+                </div>
+            </div>
+        </div>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        {% block extra_scripts %}{% endblock extra_scripts %}
+    </body>
+</html>

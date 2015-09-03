@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %}Home{% endblock title %}
+
+{% block extra_scripts %}
+<style>
+    .entry {
+        position: relative;
+        height: 380px;
+    }
+    .entry img {
+        position: absolute;
+        top: 0;
+        left: 0px;
+    }
+    .entry a {
+        color: white;
+        display: block;
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 0;
+        text-align: center;
+        line-height: 380px;
+        font-weight: bolder;
+        font-size: 2.5em;
+        text-shadow: 1px 1px 1px black;
+        background: rgba(0, 0, 0, 0.4);
+    }
+    .entry a:hover {
+        text-decoration: none;
+        background: rgba(0, 0, 0, 0.6);
+    }
+</style>
+{% endblock extra_scripts %}
+
+{% block content %}
+    <h1>About Me</h1>
+    <p>I'm pretty cool.</p>
+    <h1>My Projects</h1>
+    {% for object in object_list %}
+        <div class="col-sm-4 col-xs-12 entry">
+                {% thumbnail object.photo "380x380" crop="center" as img %}
+                    <img src="{{ MEDIA_URL }}{{ img }}">
+                {% endthumbnail %}
+                <a href="{% url 'entry-detail' object.pk %}">
+                    {{ object.name }}
+                </a>
+        </div>
+    {% endfor %}
+{% endblock content %}
