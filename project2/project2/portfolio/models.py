@@ -7,5 +7,8 @@ class PortfolioEntry(models.Model):
     link = models.URLField(null=True, blank=True)
     description = models.TextField()
 
+    class Meta:
+        verbose_name_plural = "Entries"
+
     def __unicode__(self):
         return self.name
