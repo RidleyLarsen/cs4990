@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load bootstrap_pagination %}
+{% load comments %}
 
 {% block title %}{% if is_category %}Posts in {{ category.name }}{% else %}Home{% endif %}{% endblock title %}
 
@@ -20,7 +21,7 @@
                     <a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a>
                 </div>
                 <div class="panel-body">
-                    <small>Posted by <a href="{% url 'user-list' post.author.username %}">{{ post.author.username }}</a> in {% for cat in post.categories.all %}<a href="{% url 'category-list' cat.slug %}">{{ cat.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %} on {{ post.pub_date }}</small>
+                    <small>Posted by <a href="{% url 'user-list' post.author.username %}">{{ post.author.username }}</a> in {% for cat in post.categories.all %}<a href="{% url 'category-list' cat.slug %}">{{ cat.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %} on {{ post.pub_date }}. {% get_comment_count for post as comment_count %}{{ comment_count }} Comment{{ comment_count|pluralize:"s" }}.</small>
                 </div>
             </div>
         {% endif %}

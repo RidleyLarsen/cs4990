@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID = 1
 
 # Application definition
 
@@ -37,7 +38,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'bootstrap_pagination',
+    'django_comments',
+    'crispy_forms',
     'project3.blog',
 )
 
@@ -53,6 +57,8 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'project3.urls'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 TEMPLATES = [
     {

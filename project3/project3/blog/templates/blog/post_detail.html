@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
+{% load comments %}
+{% load crispy_forms_tags %}
 
 {% block title %}{{ object.title }}{% endblock title %}
+
+{% block extra_styles %}
+    <style>
+        form {
+            padding-bottom: 20px;
+        }
+    </style>
+{% endblock extra_styles %}
 
 {% block content %}
 <h1>{{ object.title }}</h1>
@@ -8,4 +18,32 @@
 <p style="padding-top: 15px;">
     {{ object.text }}
 </p>
+{% get_comment_count for object as comment_count %}
+<hr />
+<h3>{{ comment_count }} Comments</h3>
+
+{% render_comment_list for object %}
+
+{% get_comment_form for object as form %}
+  <form id="comment-form" action="{% comment_form_target %}" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" class="btn btn-primary" id="comment-submit" name="submit" value="Post">
+  </form>
 {% endblock content %}
+
+{% block extra_scripts %}
+<script>
+$('#div_id_honeypot').hide();
+$('#comment-submit').on('click', function (e) {
+    e.preventDefault();
+    $.post(
+        "{% comment_form_target %}",
+        $("#comment-form").serialize(),
+        function (data, xhr) {
+            window.location.reload();
+        }
+    );
+});
+</script>
+{% endblock extra_scripts %}

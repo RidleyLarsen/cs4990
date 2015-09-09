@@ -11,6 +11,7 @@
                 }
             }
         </style>
+        {% block extra_styles %}{% endblock extra_styles %}
     </head>
     <body>
         <header class="container">
@@ -34,5 +35,7 @@
                 </div>
             </div>
         </div>
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        {% block extra_scripts %}{% endblock extra_scripts %}
     </body>
 </html>
