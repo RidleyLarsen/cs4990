@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ object.title }}{% endblock title %}
+
+{% block content %}
+<h1>{{ object.title }}</h1>
+<small>Posted by {{ object.author.username }} in {% for cat in object.categories.all %}<a href="{% url 'category-list' cat.slug %}">{{ cat }}</a>{% if not forloop.last %}, {% endif %}{% endfor %} on {{ object.pub_date }}</small>
+<p style="padding-top: 15px;">
+    {{ object.text }}
+</p>
+{% endblock content %}

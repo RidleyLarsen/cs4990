@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load bootstrap_pagination %}
+
+{% block title %}{% if is_category %}Posts in {{ category.name }}{% else %}Home{% endif %}{% endblock title %}
+
+{% block content %}
+    {% if is_category %}
+        <h1>Posts in {{ category.name }}</h1>
+    {% elif search %}
+        <h1>Search Results</h1>
+    {% elif user_obj %}
+        <h1>Posts By {{ user_obj.username }}</h1>
+    {% else %}
+        <h1>Recent Posts</h1>
+    {% endif %}
+    {% for post in object_list %}
+        {% if post.active and post.published %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a>
+                </div>
+                <div class="panel-body">
+                    <small>Posted by <a href="{% url 'user-list' post.author.username %}">{{ post.author.username }}</a> in {% for cat in post.categories.all %}<a href="{% url 'category-list' cat.slug %}">{{ cat.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %} on {{ post.pub_date }}</small>
+                </div>
+            </div>
+        {% endif %}
+    {% empty %}
+        We couldn't find anything!
+    {% endfor %}
+    {% if is_paginated %}
+        {% bootstrap_paginate page_obj %}
+    {% endif %}
+{% endblock content %}
