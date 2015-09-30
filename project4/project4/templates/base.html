@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock title %} | SuperStore Intranet</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      @media only screen and (min-width: 768px) {
+        .form {
+          padding-top: 25px;
+        }
+      }
+    </style>
+    {% block extra_styles %}{% endblock extra_styles %}
+  </head>
+  <body>
+    <header class="container">
+      <div class="row">
+        <h1 class="col-xs-6"><a href="/">SuperStore Intranet</a></h1>
+        <form class="form col-xs-12 col-sm-push-2 col-sm-4" action="/search/" method="get">
+          {% csrf_token %}
+          <div class="input-group">
+            <input type="text" name="q" class="form-control pull-right" placeholder="Search...">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-primary" name="button">Go!</button>
+            </span>
+          </div>
+        </form>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          {% block content %}{% endblock content %}
+        </div>
+      </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    {% block extra_scripts %}{% endblock extra_scripts %}
+  </body>
+</html>

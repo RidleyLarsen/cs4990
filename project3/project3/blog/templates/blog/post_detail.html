@@ -28,7 +28,7 @@
   <form id="comment-form" action="{% comment_form_target %}" method="post">
     {% csrf_token %}
     {{ form|crispy }}
-    <input type="submit" class="btn btn-primary" id="comment-submit" name="submit" value="Post">
+    <input type="submit" class="btn btn-primary" id="comment-submit" name="submit" value="Post Comment">
   </form>
 {% endblock content %}
 

@@ -14,7 +14,7 @@
         top: 0;
         left: 0px;
     }
-    .entry a {
+    .entry .link {
         color: white;
         display: block;
         position: absolute;
@@ -28,11 +28,16 @@
         text-shadow: 1px 1px 1px black;
         background: rgba(0, 0, 0, 0.4);
     }
-    .entry a:hover {
+    .entry .link:hover {
         text-decoration: none;
         background: rgba(0, 0, 0, 0.6);
     }
 </style>
+<script>
+  $('.link').on('click', function () {
+    $(this).css('width')
+  });
+</script>
 {% endblock extra_scripts %}
 
 {% block content %}
@@ -44,9 +49,12 @@
                 {% thumbnail object.photo "380x380" crop="center" as img %}
                     <img src="{{ MEDIA_URL }}{{ img }}">
                 {% endthumbnail %}
-                <a href="{% url 'entry-detail' object.pk %}">
+                <div class="link" href="{% url 'entry-detail' object.pk %}">
                     {{ object.name }}
-                </a>
+                    <div class="hidden">
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+                </div>
         </div>
     {% endfor %}
 {% endblock content %}

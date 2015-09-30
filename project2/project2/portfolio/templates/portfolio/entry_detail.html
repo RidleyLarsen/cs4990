@@ -57,7 +57,8 @@
         {% thumbnail object.photo "1140x150" crop="center" as img %}
             <img class="img img-responsive" src="{{ MEDIA_URL }}{{ img }}">
         {% endthumbnail %}
-        <a href="{{ object.link }}"><span id="object-title">Visit {{ object.name }}</span></a>
+        {% if object.link %}<a href="{{ object.link }}"><span id="object-title">Visit {{ object.name }}</span></a>
+        {% else %}<a href=""><span id="object-title">{{ object.name}}</span></a>{% endif %}
     </div>
     <div class="description">
         <p>

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ object.name }}{% endblock title %}
+
+{% block content %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'homepage' %}">All Categories</a></li>
+    {% for cat in object.parent_categories %}
+      <li><a href="{% url 'category-detail' cat.pk %}">{{ cat.name }}</a></li>
+    {% endfor %}
+    <li>{{ object.name }}</li>
+  </ol>
+  <h1>{{ object.name }}</h1>
+  <p>{{ object.description }}</p>
+  {% if object.category_set.all %}
+    <label>Sub-categories</label>
+    <table class="table table-striped">
+      {% for cat in object.category_set.all %}
+        <tr>
+          <td><a href="{% url 'category-detail' cat.pk %}">{{ cat.name}}</a></td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+  {% if object.item_set.all %}
+    <table class="table table-striped">
+      <tr>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Actions</th>
+      </tr>
+      {% for item in object.item_set.all %}
+      <tr>
+        <td>
+          <a href="{% url 'item-detail' item.pk %}">{{ item.name }}</a>
+        </td>
+        <td>
+          <span class="quantity">{{ item.quantity }}</span>
+        </td>
+        <td>
+          <a class="btn btn-primary btn-quantity btn-xs" data-href="{% url 'item-adjust-quantity' item.pk 'up' %}"><i class="fa fa-plus"></i></a>
+          <a class="btn btn-primary btn-quantity btn-xs" data-href="{% url 'item-adjust-quantity' item.pk 'down' %}"><i class="fa fa-minus"></i></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>No items in this category.</p>
+  {% endif %}
+{% endblock content %}
+
+{% block extra_scripts %}
+  <script>
+    $(document).on('ready', function () {
+      $('.btn-quantity').on('click', function (e) {
+        e.preventDefault();
+        $this = $(this);
+        $.get($this.data('href'), function (data) {
+          $this.parents('tr').find('span').text(data);
+        });
+      })
+    });
+  </script>
+{% endblock extra_scripts %}

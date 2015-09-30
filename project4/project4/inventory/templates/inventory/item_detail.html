@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ object.name }}{% endblock title %}
+
+{% block content %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'homepage' %}">All Categories</a></li>
+    {% for cat in object.categories.all %}
+      {% for pcat in cat.parent_categories %}
+        <li><a href="{% url 'category-detail' pcat.pk %}">{{ pcat.name }}</a></li>
+      {% endfor %}
+      <li><a href="{% url 'category-detail' cat.pk %}">{{ cat.name }}</a></li>
+    {% endfor %}
+    <li>{{ object.name }}</li>
+  </ol>
+  <h1>{{ object.name }}</h1>
+  <label for="id_description">Description</label>
+  <p id="id_description">{{ object.description }}</p>
+  <label for="id_quantity">Quantity</label>
+  <p id="id_quantity">
+    {{ object.quantity }}
+  </p>
+  <p>
+    <a class="btn btn-primary btn-quantity" data-href="{% url 'item-adjust-quantity' object.pk 'up' %}"><i class="fa fa-plus"></i></a>
+    <a class="btn btn-primary btn-quantity" data-href="{% url 'item-adjust-quantity' object.pk 'down' %}"><i class="fa fa-minus"></i></a>
+  </p>
+{% endblock content %}
+
+{% block extra_scripts %}
+<script>
+  $(document).on('ready', function () {
+    $('.btn-quantity').on('click', function (e) {
+      e.preventDefault();
+      $this = $(this);
+      $.get($this.data('href'), function (data) {
+        $('#id_quantity').text(data);
+      });
+    })
+  });
+</script>
+{% endblock extra_scripts %}

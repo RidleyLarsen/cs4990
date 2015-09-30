@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Search Results</h1>
+  {% if object_list %}
+  <table class="table table-striped">
+    {% for object in object_list %}
+    <tr>
+      <td><a href="{% url 'item-detail' object.pk %}">{{ object.name }}</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+    <p><em>No Results.</em></p>
+  {% endif %}
+{% endblock content %}
