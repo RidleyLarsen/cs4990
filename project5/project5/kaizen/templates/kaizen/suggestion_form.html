@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% if object %}
+  <h1>Updating: {{ object.title }}</h1>
+{% else %}
+  <h1>Adding a new Suggestion</h1>
+{% endif %}
+<form action="." method="post">
+  {% csrf_token %}
+  {{ form|crispy }}
+  <button class="btn btn-{% if object %}primary{% else %}success{% endif %}" type="submit">
+    <i class="fa fa-{% if object %}pencil{% else %}plus{% endif %}"></i> Submit Suggestion
+  </button>
+</form>
+{% endblock content %}

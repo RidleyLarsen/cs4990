@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block extra_styles %}
+<style>
+  .panel-body li {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    display: block;
+  }
+  ul {
+    padding-left: 0;
+  }
+  .panel-body li a {
+    display: inline-block;
+    padding: 10px;
+    width: 100%;
+  }
+  .panel-body a {
+    color: #866115;
+  }
+  .panel-body p {
+    color: #000;
+  }
+  .panel-body a:hover {
+    color: rgba(167, 126, 37, 1);
+  }
+  .booking-link {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  .card-done {
+    color: green;
+  }
+  .panel-primary {
+    border-top-color: rgb(232, 193, 112);
+    border-left-color: rgb(232, 193, 112);
+    border-right-color: rgb(232, 193, 112);
+    border-bottom-color: rgb(232, 193, 112);
+  }
+  .panel-primary .panel-heading {
+    color: black;
+    border-top-color: rgb(232, 193, 112);
+    border-bottom-color: rgb(232, 193, 112);
+    border-left-color: rgb(232, 193, 112);
+    border-right-color: rgb(232, 193, 112);
+    background-color: rgb(232, 193, 112);
+  }
+  @media only screen and (max-width: 480px) {
+    ul li span {
+      display: block;
+    }
+  }
+</style>
+{% endblock extra_styles %}
+
+{% block content %}
+<div class="col-xs-12 col-sm-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><i class="fa fa-cog"></i> My Account</h3>
+    </div>
+    <div class="panel-body">
+      <p>
+        Logged in as {{ object.user.email }}. (<a href="{% url 'accounts:logout' %}">Not me?</a>)
+      </p>
+      <ul>
+        <li><a href="{% url 'accounts:update' %}"><i class="fa fa-pencil"></i> Update My Profile</a></li>
+        <li><a href="{% url 'accounts:password_change' %}"><i class="fa fa-lock"></i> Change Password</a></li>
+      </ul>
+    </div>
+  </div>
+  {% if passengers %}
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-car"></i> My Rides</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+          {% for passenger in passengers %}
+            <li>
+              <a href="{% url 'rides:detail' passenger.ride.uuid passenger.uuid %}">
+                <span>{{ passenger.ride.date }}:</span> {{ passenger.ride.schedule.starting_point }} - {{ passenger.ride.schedule.destination }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endif %}
+</div>
+<div class="col-xs-12 col-sm-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">My Reward Points</h3>
+    </div>
+    <div class="panel-body">
+      {% for card in cards %}
+        <p>
+        Free Ride #{{ forloop.counter }}:
+        {% for point in card.point_list %}
+          {% if point %}
+            <span class="fa fa-stack card-done">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          {% else %}
+            <span class="fa fa-stack">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+            </span>
+          {% endif %}
+        {% endfor %}
+        </p>
+      {% endfor %}
+      {% if next_reward > 0 %}
+        <p>You are {{ next_reward }} points away from your next free ride.</p>
+        <p><a class="booking-link" href="{% url 'homepage' %}#form-container">Click here to start booking.</a></p>
+      {% else %}
+        <p>You've earned a free ride!
+        <p><a class="booking-link" href="{% url 'homepage' %}#form-container">Click here to start booking.</a></p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}

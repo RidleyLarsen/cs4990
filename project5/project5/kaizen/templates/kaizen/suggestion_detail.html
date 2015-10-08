@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load comments crispy_forms_tags %}
+
+{% block title %}{{ object.title }}{% endblock title %}
+
+{% block content %}
+  {% if request.user == object.user %}
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <a class="btn btn-primary" href="{% url 'suggestion-update' object.pk %}"><i class="fa fa-pencil"></i> Edit This Suggestion</a>
+        <a class="btn btn-danger" href="{% url 'suggestion-delete' object.pk %}"><i class="fa fa-trash"></i> Delete This Suggestion</a>
+      </div>
+    </div>
+  {% endif %}
+  <h2>{{ object.title }}</h2>
+  <p class="small">
+    Posted by {{ object.user }} on {{ object.timestamp }} in
+    {% for c in object.categories.all %}
+      <a href="{% url 'suggestion-list' %}?cat={{ c.pk }}">{{ c.name }}</a>{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  </p>
+  <p class="well">
+    {{ object.description }}
+  </p>
+  <hr>
+  {% get_comment_count for object as comment_count %}
+  {% if comment_count > 0 %}
+    <h4>{{ comment_count }} Comments</h4>
+  {% else %}
+    <h4>There are no comments. You could be the first!</h4>
+  {% endif %}
+  {% render_comment_list for object %}
+  {% get_comment_form for object as form %}
+  <form action="{% comment_form_target %}" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="hidden" name="next" value="{% url 'suggestion-detail' object.pk %}">
+    <button id="comment-submit" type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% endblock content %}

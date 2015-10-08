@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if category %}{{ category.name }}{% elif my_suggestions %}My Suggestions{% else %}All Suggestions{% endif %}{% endblock title %}
+
+{% block content %}
+  {% if request.user.is_authenticated %}
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <a class="btn btn-success" href="{% url 'suggestion-add' %}{% if category %}?categories={{category.pk}}{% endif %}"><i class="fa fa-plus"></i> Add a Suggestion</a>
+        <a class="btn btn-default" href="{% url 'my-suggestions' %}"><i class="fa fa-list"></i> My Suggestions</a>
+        <a class="btn btn-default" href="{% url 'category-list' %}"><i class="fa fa-list-ul"></i> Categories</a>
+      </div>
+    </div>
+  {% endif %}
+  {% if my_suggestions %}
+    <h1>My Suggestions</h1>
+  {% else %}
+    {% if category %}
+      <h1>Suggestions in {{ category.name }}</h1>
+    {% endif %}
+  {% endif %}
+  {% for object in object_list %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <a href="{% url 'suggestion-detail' object.pk %}">{{ object.title }}</a>
+      </div>
+      <div class="panel-body">
+        <p>
+          {{ object.description }}
+        </p>
+        <p class="small">
+          Posted by {{ object.user }} on {{ object.timestamp }} in
+          {% for c in object.categories.all %}
+            <a href="{% url 'suggestion-list' %}?cat={{ c.pk }}">{{ c.name }}</a>{% if not forloop.last %},{% endif %}
+          {% endfor %}
+        </p>
+      </div>
+    </div>
+  {% empty %}
+    No Suggestions.
+  {% endfor %}
+{% endblock content %}
