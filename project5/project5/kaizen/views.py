@@ -36,7 +36,10 @@ class SuggestionListView(ListView):
 
 class MySuggestionsView(ListView):
     def get_queryset(self, *args, **kwargs):
-        return Suggestion.objects.filter(user=self.request.user)
+        try:
+            return Suggestion.objects.filter(user=self.request.user).order_by('-timestamp')
+        except:
+            return Suggestion.objects.none()
 
     def get_context_data(self, *args, **kwargs):
         context = super(MySuggestionsView, self).get_context_data(*args, **kwargs)
