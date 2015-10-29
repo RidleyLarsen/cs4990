@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" media="screen" title="font awesome" charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="https://cask.scotch.io/bootstrap-4.0.css">
+    <title>{% block title %}{% endblock title %} | Birdsong</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+          <div class="col-xs-12 col-sm-6">
+              <h1><a href="{% url 'feed' %}">Birdsong</a></h1>
+              <small>Microblog posts so small that you don't have to put effort into it.</small>
+          </div>
+          <div class="col-xs-12 col-sm-6 text-right" style="margin-top: 20px;">
+              {% if not request.user.is_authenticated %}
+                  <a class="btn btn-primary" href="{% url 'accounts:auth_login' %}"><i class="fa fa-sign-in"></i> Log In</a>
+                  <a class="btn btn-primary" href="{% url 'accounts:registration_register' %}"><i class="fa fa-sign-in"></i> Sign Up</a>
+              {% else %}
+                  <span style="margin-right: 5px;">Logged in as
+                    <a href="{% url 'profiles:update' %}">
+                      {{ request.user.username }}
+                    </a>
+                  </span>
+                  <a class="btn btn-primary" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Log Out</a>
+              {% endif %}
+          </div>
+      </div>
+      <div class="row">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{% for tag in message.tags %}{% if tag == "error" %}danger{% else %}{{ tag }}{% endif %}{% endfor %}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+        <div class="col-xs-12">{% block content %}{% endblock content %}</div>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    {% block extra_scripts %}{% endblock extra_scripts %}
+  </body>
+</html>

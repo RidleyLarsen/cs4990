@@ -1,0 +1,27 @@
+{% extends 'birdsong/feed.html' %}
+
+{% block extra_scripts %}
+<script>
+  $(function () {
+    $('#submit-note').on('click', function(e) {
+      e.preventDefault();
+      $form = $(this).parents('form');
+      $.post($form.attr('action'), $form.serialize(), function () {
+        window.location.reload();
+      });
+    })
+  })
+</script>
+{% endblock extra_scripts %}
+
+{% block feed-precontent %}
+  {% if request.user.is_authenticated %}
+    <form method="post" action="{% url 'note-add' %}" style="padding: 10px 0 10px 0">
+      <div class="form-group">
+        {% csrf_token %}
+        <textarea class="form-control" name="text" maxlength="140" cols="70" rows="2" placeholder="Sing your song here."></textarea>
+      </div>
+      <button type="button" id="submit-note" class="btn btn-default">Post it!</button>
+    </form>
+  {% endif %}
+{% endblock feed-precontent %}

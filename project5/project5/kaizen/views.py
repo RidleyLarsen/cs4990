@@ -66,9 +66,9 @@ class SuggestionCreateView(CreateView):
         return reverse('suggestion-detail', args=(self.object.pk, ))
 
     def form_valid(self, form):
-        object = form.save(commit=False)
-        object.user = self.request.user
-        object.save()
+        idea = form.save(commit=False)
+        idea.user = self.request.user
+        idea.save()
         return super(SuggestionCreateView, self).form_valid(form)
 
 

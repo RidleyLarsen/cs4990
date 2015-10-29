@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %}Home{%endblock title %}
+
+{% block content %}
+  {% block feed-precontent %}{% endblock feed-precontent %}
+  {% for object in object_list %}
+    <div class="card">
+      <div class="card-block">
+        <div class="card-text">
+          {% spaceless %}
+          <a href="{% url 'profiles:detail' object.profile.pk %}">
+            {% if object.profile.picture %}
+              {% thumbnail object.profile.picture "50x50" crop="center" as img %}
+                <img class="img img-responsive img-circle" src="{{ MEDIA_URL }}{{ img }}" style="display: inline;">
+              {% endthumbnail %}
+            {% else %}
+              <img class="img img-responsive img-circle" src="/media/static/img/default_picture.png" style="display: inline;">
+            {% endif %}
+            {{ object.profile }}</a>:
+          {% endspaceless %}
+          {{ object.linked_text }}
+          <span class="small pull-right">{{ object.timestamp }}</span>
+          <span class="clearfix"></span>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock content %}

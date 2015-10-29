@@ -32,4 +32,5 @@ urlpatterns = [
     url(r'^kaizen/(?P<pk>\d+)/$', SuggestionView.as_view(), name="suggestion-detail"),
     url(r'^kaizen/(?P<pk>\d+)/edit/', SuggestionUpdateView.as_view(), name="suggestion-update"),
     url(r'^kaizen/(?P<pk>\d+)/delete/', SuggestionDeleteView.as_view(), name="suggestion-delete"),
+    url(r'^$', TemplateView.as_view(template_name="base.html"), name="homepage"),
 ]
