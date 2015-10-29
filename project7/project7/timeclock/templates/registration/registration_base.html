@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block extrastyles %}
+    <style type="text/css">
+
+        .alert-bold {
+            font-family: DroidSansBold;
+        }
+
+        .padding-right {
+            padding-right: 10px;
+        }
+
+        .billing-table-container {
+            display: table;
+            width: 100%;
+        }
+        .billing-table-cell {
+            display: table-cell;
+        }
+        .billing-expiration-date {
+            display: table;
+            width: 100%;
+        }
+        .billing-city {
+            width: 50%;
+        }
+        .billing-state {
+            width: 20%;
+        }
+        .billing-zip {
+            width: 30%;
+            padding-left: 10px;
+        }
+        .billing-card-number {
+            display: table-cell;
+            width: 80%;
+        }
+        .billing-first-name {
+            display: table-cell;
+            width: 50%;
+            padding-right: 5px;
+        }
+        .billing-last-name {
+            display: table-cell;
+            padding-left: 5px;
+        }
+    </style>
+{% endblock extrastyles %}
+
+{% block content %}
+<h2>Registration: Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</h2>
+{% if wizard.form.errors %}
+    <div class="alert alert-danger">
+        <span class="alert-bold">Oops!</span> It looks like something went wrong. Please see the form below for details.
+    </div>
+{% endif %}
+
+
+<form action="." method="post" id="registration-form">
+    {% csrf_token %}
+
+    {{ wizard.management_form }}
+
+    {% if wizard.steps.step1 == 1 %}
+        {% crispy wizard.form %}
+    {% else %}
+        {{ wizard.form|crispy }}
+    {% endif %}
+
+    {% if wizard.steps.prev %}
+        <button name="wizard_goto_step"
+                class="btn btn-default"
+                type="submit"
+                value="{{ wizard.steps.prev }}">
+            Previous Step
+        </button>
+    {% endif %}
+
+    {% if wizard.steps.step1 == wizard.steps.count %}
+        <button type="submit" class="btn btn-primary" name="submit">
+            Finish Registration
+        </button>
+    {% elif wizard.steps.step1 > 1 %}
+        <button type="submit" class="btn btn-primary" name="submit">
+            Continue
+        </button>
+    {% endif %}
+</form>
+
+{% endblock content %}

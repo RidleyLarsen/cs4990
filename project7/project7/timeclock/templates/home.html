@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block homeactive %}active{% endblock %}
+
+{% block extra_styles %}
+<style type="text/css">
+    div.jumbotron h1 {
+        font-size: 42px;
+    }
+</style>
+{% endblock extra_styles %}
+
+{% block content %}
+<div class="jumbotron">
+
+
+    {% if request.user.is_authenticated %}
+        <h1>Welcome, {{ request.user.username }}!</h1>
+        {% if clocked_in %}
+            {% if event %}
+                <p>You clocked in at {{ event.time_in.time }} ({{ event.time_in.date }})</p>
+            {% endif %}
+            <p>
+                <a href="{% url 'clock_out' %}" class="btn btn-primary clocked-in"><i class="fa fa-clock-o"></i> Clock Out</a>
+            </p>
+            <hr>
+                <h2>Notes for this clock-in:</h2>
+                <p>What projects you worked on or what you did during your time.</p>
+                <form action="{% url 'event_notes_update' event.pk %}" method="POST">
+                    {% csrf_token %}
+                    {{ notes_form|crispy }}
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+        {% else %}
+            <p>
+                <a href="{% url 'clock_in' %}" class="btn btn-primary"><i class="fa fa-clock-o"></i> Clock In</a>
+            </p>
+        {% endif %}
+    {% else %}
+        <a href="{% url 'login' %}" class="btn btn-primary">Volunteer Log-in</a>
+        <a href="{% url 'volunteer_create' %}" class="btn btn-primary">Become a Volunteer</a>
+    {% endif %}
+
+
+</div>
+{% endblock content %}

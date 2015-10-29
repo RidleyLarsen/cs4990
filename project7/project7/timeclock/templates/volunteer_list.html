@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block listactive %}active{% endblock %}
+
+{% block content %}
+    {% if request.user.is_staff %}
+        <p>
+            <a class="btn btn-info" href="{% url 'event_calendar' %}">Volunteer Calendar</a>
+        </p>
+    {% endif %}
+    <table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Recently Active</th>
+            {% if request.user.is_superuser %}
+                <th>Timecard</th>
+            {% endif %}
+        </tr>
+    {% for object in object_list %}
+        <tr>
+            <td><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></td>
+            <td><i class="fa fa-{% if object.active_recently %}check{% else %}times{% endif %}"></i></td>
+            {% if request.user.is_superuser %}
+                <td><a href="{% url 'event_list' object.user.pk %}">View timecard</a></td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock content %}

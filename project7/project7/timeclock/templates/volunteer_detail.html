@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block listactive %}active{% endblock %}
+
+{% block content %}
+{% if object.photo %}
+    <div class="col-xs-2">
+        <img class="img img-responsive" src="{{ object.photo.url }}">
+    </div>
+{% endif %}
+<div class="col-xs-6">
+    <h2>{{ object.name }}</h2>
+    <h4>
+        Entered on {{ object.date }}
+    </h4>
+
+    <h3>Birthday:</h3>
+    <p>
+        {{ object.birthday }}
+    </p>
+
+    <h3>Address:</h3>
+    <p>
+        {{ object.address }}<br>
+        {{ object.address_2 }}<br>
+        {{ object.city }}<br>
+        {{ object.state }}, {{ object.zip_code }}<br>
+    </p>
+
+    <h3>Phone:</h3>
+    <p>{{ object.phone }}</p>
+
+    <h3>Email:</h3>
+    <p><a href="mailto:{{object.email}}">{{ object.email }}</a></p>
+
+    <h3>Emergency Contact:</h3>
+    <p>
+        <strong>{{ object.emergency_contact }}</strong><br>
+        {% if object.emergency_contact_phone %}
+            {{ object.emergency_contact_phone }}<br>
+        {% else %}
+            No emergency phone listed.
+        {% endif %}
+        Relationship: {{ object.emergency_contact_relationship }}
+    </p>
+</div>
+{% endblock content %}

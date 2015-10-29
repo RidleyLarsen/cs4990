@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block helpactive %}active{% endblock helpactive %}
+
+{% block content %}
+<h1>Help!</h1>
+  <p>How do I....</p>
+<hr>
+  <h2 id="add-volunteer"><i class="fa fa-plus"></i> <i class="fa fa-user"></i> Add a volunteer?</h2>
+  <p>
+    Ask the volunteer to fill out the <a href="{% url 'volunteer_create' %}">
+      Volunteer Application
+    </a>.
+  </p>
+<hr>
+  <h2><i class="fa fa-clock-o"></i> <i class="fa fa-calendar"></i> View my hours in a date range?</h2>
+  <p>
+    If you want to view your hours in a date range (ex: from November 1st to November 31st,) you can
+    use the <button class="btn btn-info"><i class="fa fa-filter"></i> Toggle Filters</button> on the
+    <a><i class="fa fa-clock-o"></i> Timecard</a> page. Use the date pickers to choose a start and end date.
+  </p>
+<hr>
+  <h2><i class="fa fa-clock-o"></i> <i class="fa fa-pencil"></i> Adjust my timecard?</h2>
+  <p>
+    You will need to ask an administrator for assistance.
+  </p>
+<hr>
+  <h2><i class="fa fa-exclamation"></i> <i class="fa fa-bug"></i> Report a bug?</h2>
+  <p>
+    Write down exactly what you were doing when you encountered the bug. Tell an
+    administrator what happened, and they will take care of it.
+  </p>
+<hr>
+{% endblock content %}

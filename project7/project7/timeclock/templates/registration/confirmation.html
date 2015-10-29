@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block extrastyles %}
+<style type="text/css">
+    .confirmation-table {
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+    td {
+        padding: 15px;
+        font-size: 16px;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        padding: 15px;
+        font-family: DroidSansBold;
+        font-size: 16px;
+        vertical-align: top;
+        border-bottom: 1px solid #ddd;
+    }
+    .last td, .last th {
+        border-bottom: none;
+    }
+    .billing-important {
+        font-family: DroidSansBold;
+        font-size: 16px;
+    }
+</style>
+{% endblock extrastyles %}
+
+{% block content %}
+<h2>Review and Confirmation</h2>
+<p>
+    Please review your subscription details below. If the details are correct,
+    please click "Complete Registration" to submit your order.
+</p>
+<table class="confirmation-table">
+    <tr>
+        <th>Package:</th>
+        <td>RocketCharts Subscription</td>
+    </tr>
+    <tr>
+        <th>Price:</th>
+        <td>{{ frequency_text }}</td>
+    <tr class="last">
+        <th><strong>Bill To:</strong></th>
+        <td>
+            <div>{{ bill_name }}</div>
+            <div>{{ bill_address }}</div>
+            <div>{{ bill_city }}, {{ bill_state }} {{ bill_zip }}</div>
+        </td>
+    </tr>
+</table>
+
+<p class="billing-important">
+    Your card will be charged on {{ bill_date }},
+    and then on the {{ bill_date_day }} of every {{ frequency_english }}
+    until you cancel. {{ bill_date_extra }}
+</p>
+<form action="." method="post" id="registration-form">
+    {% csrf_token %}
+    {{ wizard.management_form }}
+    {% if wizard.steps.prev %}
+        <button name="wizard_goto_step"
+                class="btn btn-default"
+                type="submit"
+                value="{{ wizard.steps.prev }}">
+            Previous Step
+        </button>
+    {% endif %}
+
+    {% if wizard.steps.step1 == wizard.steps.count %}
+        <button type="submit" class="btn btn-primary" name="submit">
+            Complete Registration
+        </button>
+    {% elif wizard.steps.step1 > 1 %}
+        <button type="submit" class="btn btn-primary" name="submit">
+            Continue
+        </button>
+    {% endif %}
+</form>
+{% endblock content %}

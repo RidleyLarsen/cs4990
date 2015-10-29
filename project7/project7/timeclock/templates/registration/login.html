@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="col-xs-11">
+    <h3>Volunteer Time Database!</h3>
+    <p>
+        Log in to your account here or click "Register" to create an account.
+        <a href="{% url 'password_reset' %}">Forgot password?</a>
+    </p>
+</div>
+<div class="clearfix"></div>
+{% if request.get_full_path %}
+    <form action="{{ request.get_full_path }}" method="post" class="col-xs-12">
+{% else %}
+    <form action="/accounts/login/" method="post" class="col-xs-12">
+{% endif %}
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" value="submit" class="btn btn-success pull-right">Login</button>
+</form>
+<div class="clearfix"></div>
+<div class="col-xs-3 col-xs-push-4 text-center">
+    <a href="{% url 'volunteer_create' %}" class="btn btn-primary">Register Here</a>
+
+</div>
+{% endblock content %}

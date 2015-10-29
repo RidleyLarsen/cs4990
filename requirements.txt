@@ -3,3 +3,4 @@ Pillow==2.9.0
 sorl-thumbnail==12.3
 django-bootstrap-pagination==1.5.1
 django-registrtation-redux==1.2
+python-dateutil

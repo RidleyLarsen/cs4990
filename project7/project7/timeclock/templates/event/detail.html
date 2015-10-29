@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block listactive %}active{% endblock %}
+
+{% block content %}
+{% if volunteer.picture %}
+  <div class="col-xs-2">
+    <img src="{{ volunteer.picture }}" alt="{{ volunteer.name }}" class="img img-responsive">
+  </div>
+{% endif %}
+<div class="col-xs-10">
+  <p>
+    <a href="{% url 'event_calendar' %}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Back to Calendar</a>
+    {% if request.user == event.owner or request.user.is_staff %}
+      <a href="{% url 'event_update' object.pk %}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit This Event</a>
+      <a href="{% url 'event_delete' object.pk %}" class="btn btn-danger"><i class="fa fa-trash"></i> Delete This Event</a>
+    {% endif %}
+  </p>
+
+  <h1>{{ volunteer.name }}</h1>
+  {% if object.time_in.date == object.time_out.date %}
+    <h2>{{ object.time_in.date }}: {{ object.time_in.time }} - {{ object.time_out.time }}</h2>
+  {% else %}
+    <h2>{{ object.time_in }}{% if object.time_out %} - {{ object.time_out }}{% endif %}</h2>
+  {% endif %}
+</div>
+{% endblock content %}

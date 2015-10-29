@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% load static tz %}
+
+{% block eventlistactive %}active{% endblock %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datepicker.css' %}">
+    <style type="text/css">
+        h1 {
+            font-size: 26px;
+        }
+        form {
+            padding-top: 20px;
+        }
+        .form-horizontal {
+            display: none;
+        }
+    </style>
+{% endblock extra_styles %}
+
+{% block extra_scripts %}
+    <script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+    <script>
+        $(document).on('ready', function () {
+            $('#start_date').datepicker({
+                autoclose: true,
+                todayBtn: 'linked',
+                format: "yyyy-mm-dd",
+            });
+            $('#end_date').datepicker({
+                autoclose: true,
+                todayBtn: 'linked',
+                format: "yyyy-mm-dd",
+            });
+        });
+        $('#clear-filter').on('click', function () {
+            $('input').val('');
+            $('form').submit();
+        });
+        $('#filter-btn').on('click', function () {
+            $('.form-horizontal').slideToggle();
+        })
+    </script>
+{% endblock extra_scripts %}
+
+{% block content %}
+    <h1>Time for {{ volunteer_user.username }}</h1>
+    <p>
+        {% if request.GET.start_date and request.GET.end_date %}
+            From
+        {% endif %}
+        {% if request.GET.start_date %}
+            {{ request.GET.start_date }}
+        {% endif %}
+        {% if request.GET.start_date and request.GET.end_date %}
+            to
+        {% endif %}
+        {% if request.GET.end_date %}
+            {{ request.GET.end_date }}
+        {% endif %}
+    </p>
+    <button id="filter-btn" type="button" class="btn btn-info">
+            <i class="fa fa-filter"></i>
+        Toggle Filter
+    </button>
+    {% if request.GET.start_date or request.GET.end_date %}
+        <button id="clear-filter" type="button" class="btn btn-primary">
+            <i class="fa fa-times"></i>
+            Clear Filters
+        </button>
+    {% endif %}
+    <form method="GET" action=".">
+        <div class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="start_date" class="col-sm-2 control-label">Start Date <i class="fa fa-calendar"></i></label>
+                <div class="col-sm-10">
+                    <input id="start_date" class="form-control" name="start_date" type="text" placeholder="yyyy-mm-dd" value="{{ request.GET.start_date }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="#end_date" class="col-sm-2 control-label">End Date <i class="fa fa-calendar"></i></label>
+                <div class="col-sm-10">
+                    <input id="end_date" class="form-control" name="end_date" type="text" placeholder="yyyy-mm-dd" value="{{ request.GET.end_date }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    {% if total_hours %}
+        <h1>
+            Total Time: <small>{{ total_hours }}</small>
+        </h1>
+    {% else %}
+        <p>Your user has no volunteer information, which should mean you are the administrator.</p>
+    {% endif %}
+    <table class="table table-striped">
+    <tr>
+        <th>Date</th><th>Time In</th><th>Time Out</th><th>Duration</th>
+    </tr>
+    {% for object in object_list %}
+        <tr>
+            <th>{{ object.time_in.date }}</th>
+            <td>{{ object.time_in.time }}</td>
+            <td>{{ object.time_out.time }}</td>
+            <td>{{ object.duration }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock content %}

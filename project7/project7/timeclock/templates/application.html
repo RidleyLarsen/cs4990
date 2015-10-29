@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}" type="text/css">
+{% endblock extra_styles %}
+
+{% block extra_scripts %}
+<script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+<script>
+$(document).on('ready', function () {
+  $('#id_birthday').datepicker({});
+});
+</script>
+{% endblock extra_scripts %}
+
+{% block content %}
+    <h1>Volunteer Application</h1>
+    <form action="." method="POST">
+        {% csrf_token %}
+        {% crispy form %}
+    </form>
+{% endblock content %}
