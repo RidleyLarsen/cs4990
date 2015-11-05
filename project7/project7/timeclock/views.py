@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, DeleteView, ListView,\
@@ -150,6 +150,14 @@ class EventListView(ListView):
             except Volunteer.DoesNotExist:
                 context['total_hours'] = None
         return context
+
+    def dispatch(self, request, *args, **kwargs):
+        user = User.objects.get(pk=self.kwargs.get('pk', None))
+        print user, request.user
+        if user != request.user and not request.user.is_superuser:
+            return HttpResponseForbidden("You are not allowed to access this page.")
+        else:
+            return super(EventListView, self).dispatch(request, *args, **kwargs)
 
 
 class EventCalendarView(ListView):

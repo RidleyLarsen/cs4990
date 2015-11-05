@@ -100,7 +100,7 @@
     {% endif %}
     <table class="table table-striped">
     <tr>
-        <th>Date</th><th>Time In</th><th>Time Out</th><th>Duration</th>
+        <th>Date</th><th>Time In</th><th>Time Out</th><th>Duration</th><th>Notes</th>
     </tr>
     {% for object in object_list %}
         <tr>
@@ -108,6 +108,7 @@
             <td>{{ object.time_in.time }}</td>
             <td>{{ object.time_out.time }}</td>
             <td>{{ object.duration }}</td>
+            <td>{{ object.notes|default:"N/A." }}</td>
         </tr>
     {% endfor %}
     </table>

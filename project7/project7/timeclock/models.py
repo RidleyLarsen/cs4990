@@ -1,4 +1,4 @@
-from dateutil import relativedelta
+from dateutil.relativedelta import relativedelta
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse

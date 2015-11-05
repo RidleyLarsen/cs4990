@@ -37,7 +37,6 @@ class VolunteerApplication(ModelForm):
                 'emergency_contact_phone',
                 'emergency_contact_relationship',
             ),
-            Div('work_experience'),
             Fieldset(
                 'User Details',
                 'username',
