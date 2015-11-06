@@ -1,0 +1,15 @@
+{% for object in object_list %}
+  <div class="col-xs-12 col-sm-4">
+    <div class="card">
+      <img class="card-img-top img img-responsive" src="{{ object.image_url }}">
+      <div class="card-block">
+        <div class="card-title">
+          <a href="{{ object.link }}">{{ object.title }}</a>
+        </div>
+        <div class="card-text">
+          <p>{{ object.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}

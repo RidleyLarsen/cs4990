@@ -1,0 +1,82 @@
+{% extends 'birdsong/feed.html' %}
+
+{% block extra_scripts %}
+<script>
+  $(function () {
+    $('#submit-note').on('click', function(e) {
+      e.preventDefault();
+      $form = $(this).parents('form');
+      $.post($form.attr('action'), $form.serialize(), function () {
+        window.location.reload();
+      });
+    });
+    $('#follow-submit').on('click', function (e) {
+      e.preventDefault();
+      $form = $(this).parents('form');
+      $.post($form.attr('action'), $form.serialize(), function () {
+        window.location.reload();
+      });
+    })
+  })
+</script>
+{% endblock extra_scripts %}
+
+{% block feed-precontent %}
+  <h1>{{ profile.name }}</h1>
+  <div class="row">
+    <div class="col-xs-4">
+      <div class="card">
+        {% if profile.picture %}
+          <img class="img img-responsive card-img-top" src="{{ MEDIA_URL }}{{ profile.picture }}">
+        {% else %}
+          <img class="img img-responsive card-img-top text-center" src="/media/static/img/default_picture.png">
+        {% endif %}
+        <div class="card-block">
+          <div class="card-text">
+            {{ profile.name }}{% if profile.location %}, in {{ profile.location }}{% endif %}
+            <form method="post" action="{% url 'profile-follow' %}">
+              {% csrf_token %}
+              <input type="hidden" name="user_pk" value="{{ profile.user.pk }}">
+              {% if profile in request.user.profile_set.get.following.all %}
+                <button type="submit" id="follow-submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> unfollow</button>
+              {% else %}
+                {% if profile != request.user.profile_set.get %}
+                  <input type="hidden" name="follow" value="true">
+                  <button type="submit" id="follow-submit" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> follow</button>
+                {% endif %}
+              {% endif %}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-4">
+      <div class="card">
+        <div class="card-block">
+          <div class="card-text">
+            <h3>Following</h3>
+            <ul>
+              {% for p in profile.following.all %}
+                <li><a href="{% url 'profiles:detail' p.pk %}">{{ p.name }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-4">
+      <div class="card">
+        <div class="card-block">
+          <div class="card-text">
+            <h3>Followers</h3>
+            <ul>
+              {% for p in profile.profile_set.all %}
+                <li><a href="{% url 'profiles:detail' p.pk %}">{{ p.name }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock feed-precontent %}
