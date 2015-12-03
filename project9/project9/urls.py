@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from project9.crm.views import OpportunityListView
+from project9.crm.views import HomepageView, OpportunityListView
 
 urlpatterns = [
+    url(r'^$', HomepageView.as_view(), name="home")
     url(r'^opportunity/list/', OpportunityListView.as_view(), name="opportunity-list"),
     url(r'^admin/', include(admin.site.urls)),
 ]
