@@ -4,7 +4,7 @@ from fabric.api import hosts, run, env
 @hosts('root@198.199.109.62')
 def restart():
     env.cwd = '/home/django/cs4990/project9/'
-    run('kill -9 $(cat /home/django/cs4990/project9/supervisord.pid)')
+    run('pkill gunicorn')
     run('supervisord -c supervisord.conf')
 
 
