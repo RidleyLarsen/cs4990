@@ -3,3 +3,4 @@ venv-cs4990/
 *.pyc
 project2/media/
 project6/media/static/
+project9/db.sqlite3

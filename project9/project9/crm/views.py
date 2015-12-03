@@ -1,3 +1,6 @@
-from django.shortcuts import render
+from django.views.generic import ListView
+from .models import Opportunity
 
-# Create your views here.
+
+class OpportunityListView(ListView):
+    model = Opportunity
