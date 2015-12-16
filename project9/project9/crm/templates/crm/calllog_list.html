@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block page-header %}
+  All Call Logs
+  <span class="pull-right">
+    <a class="btn btn-success" href="{% url 'calllog-create' %}">
+      <i class="fa fa-plus"></i> Add Call Log
+    </a>
+  </span>
+{% endblock page-header %}
+
+{% block content %}
+  {% for obj in object_list %}
+    <a href="{% url 'calllog-detail' obj.pk %}">{{ obj.name }}</a>
+  {% endfor %}
+{% endblock content %}

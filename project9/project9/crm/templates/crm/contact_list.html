@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block page-header %}
+  All Contacts
+  <span class="pull-right">
+    <a class="btn btn-success" href="{% url 'contact-create' %}">
+      <i class="fa fa-plus"></i> Add Contact
+    </a>
+  </span>
+{% endblock page-header %}
+
+{% block content %}
+  {% for obj in object_list %}
+    <a href="{% url 'contact-detail' obj.pk %}">{{ obj.name }}</a>
+  {% endfor %}
+{% endblock content %}

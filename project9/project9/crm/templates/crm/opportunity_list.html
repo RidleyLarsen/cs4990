@@ -1,5 +1,17 @@
 {% extends 'base.html' %}
 
+{% block page-header %}
+  All Opportunities
+  <span class="pull-right">
+    <a class="btn btn-success" href="{% url 'opportunity-create' %}">
+      <i class="fa fa-plus"></i> Add Opportunity
+    </a>
+  </span>
+{% endblock page-header %}
+
 {% block content %}
-  <h1>u did it</h1>
+  <h1>Here are the opportunities</h1>
+  {% for object in object_list %}
+    <a href="{% url 'opportunity-detail' object.pk %}">{{ object }}</a>
+  {% endfor %}
 {% endblock content %}

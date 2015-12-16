@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block page-header %}
+  All Reminders
+  <span class="pull-right">
+    <a class="btn btn-success" href="{% url 'reminder-create' %}">
+      <i class="fa fa-plus"></i> Add Reminder
+    </a>
+  </span>
+{% endblock page-header %}
+
+{% block content %}
+  {% for obj in object_list %}
+    <a href="{% url 'reminder-detail' obj.pk %}">{{ obj.name }}</a>
+  {% endfor %}
+{% endblock content %}

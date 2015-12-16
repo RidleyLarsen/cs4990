@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block page-header %}
+  All Reports
+  <span class="pull-right">
+    <a class="btn btn-success" href="{% url 'report-create' %}">
+      <i class="fa fa-plus"></i> Add Report
+    </a>
+  </span>
+{% endblock page-header %}
+
+{% block content %}
+  {% for obj in object_list %}
+    <a href="{% url 'report-detail' obj.pk %}">{{ obj.name }}</a>
+  {% endfor %}
+{% endblock content %}

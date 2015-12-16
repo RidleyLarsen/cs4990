@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block page-header %}
+  All Stages
+  <span class="pull-right">
+    <a class="btn btn-success" href="{% url 'stage-create' %}">
+      <i class="fa fa-plus"></i> Add Stage
+    </a>
+  </span>
+{% endblock page-header %}
+
+{% block content %}
+  {% for obj in object_list %}
+    <a href="{% url 'stage-detail' obj.pk %}">{{ obj.name }}</a>
+  {% endfor %}
+{% endblock content %}
